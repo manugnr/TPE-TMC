@@ -74,7 +74,7 @@ public class main {
 		//
 		
 		int cantAutosEpsilon = 5;
-		float epsilon = 0.0001f;
+		float epsilon = 0.01f;
 		
 		probEpsilon(cantAutosEpsilon, epsilon);
 	}
@@ -86,25 +86,30 @@ public class main {
 		float diferencia = 0;
 		int casoFavorable = 0;
 		
+		//controlo que mínimo haga 10 iteraciones y que cuando la diferencia entre la prob actual y la anterior sea menor al epsilon, se corte
 		while (i<=10 || diferencia>epsilon) {
 			int resultado = ingresarAuto(cantAutos);
 			
+			//tomo como caso favorable que entren todos los autos
 			if (resultado==-1) {
 				casoFavorable++;
 			}
 			
+			//la prob actual se vuelve anterior y la actual es la nueva probabilidad
 			if (i>1) {
 				probAnterior = probActual;
 				probActual = (float) casoFavorable/i;
-				diferencia = probActual-probAnterior;
+				diferencia = Math.abs(probActual-probAnterior); //con Math.abs convierto en positiva la diferencia
 				i++;
 			}
+			//si es la primer iteracion solo la guardo como prob actual
 			else {
 				probActual = (float) casoFavorable/i;
 				i++;
 			}
 		}
 		
+		//imprimo los resultados directamente acá
 		System.out.println("PUNTO D-> ");
 		System.out.println("");
 		System.out.println("Se detuvo luego de hacer " + i + " iteraciones.");
